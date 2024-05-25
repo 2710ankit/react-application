@@ -11,7 +11,7 @@ const Tasks = () => {
         const res = await axiosInterceptorInstance.get("/tasks");
         setTasks(res.data.data);
       } catch (error: any) {
-        alert(error.data.response.message.message);
+        alert(error.response.data.message.message);
       }
     };
 
