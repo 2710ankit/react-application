@@ -1,8 +1,23 @@
-import React from "react";
-import './tasks.css'
+import React, { useEffect, useState } from "react";
+import "./tasks.css";
+import axiosInterceptorInstance from "../../interceptors/http.interceptor";
 
 const Tasks = () => {
-  console.log(1);
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    const fetchAsync = async () => {
+      try {
+        const res = await axiosInterceptorInstance.get("/tasks");
+        setTasks(res.data.data);
+      } catch (error: any) {
+        alert(error.data.response.message.message);
+      }
+    };
+
+    fetchAsync();
+  }, []);
+
   return (
     <div className="task-manager-container">
       <h2>Task Manager</h2>
@@ -14,21 +29,27 @@ const Tasks = () => {
         <thead>
           <tr>
             <th>Task Name</th>
-            <th>Date</th>
+            <th>Craeted At</th>
             <th>Made By</th>
+            <th>Status</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Task 1</td>
-            <td>2024-05-25</td>
-            <td>User 1</td>
-            <td>
-              <button>Mark Complete</button>
-              <button>Delete</button>
-            </td>
-          </tr>
+          {tasks.map((task: any) => {
+            return (
+              <tr key={task.id}>
+                <td>{task.task}</td>
+                <td>{new Date(task.createdAt).toLocaleDateString()}</td>
+                <td>{task.userId}</td>
+                <td>{task.status ? "true" : "false"} </td>
+                <td>
+                  <button>Mark Complete</button>
+                  <button>Delete</button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

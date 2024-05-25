@@ -10,6 +10,7 @@ const Tasks = lazy(() => import("./components/tasks/tasks"));
 const CreateTask = lazy(() => import("./components/create-task/CreateTask"));
 
 function App() {
+  console.log('app')
   return (
     <>
       <BrowserRouter>
