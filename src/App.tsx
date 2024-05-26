@@ -1,8 +1,8 @@
-import React, { Suspense, lazy } from "react";
-import logo from "./logo.svg";
+import { Suspense, lazy } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Navbar from "./components/navbar/navbar";
+import { AuthWrapper, LoginWrapper } from "./gaurds/auth.gaurd";
+// import { AuthWrapper } from "./gaurds/auth.gaurd";
 
 const Login = lazy(() => import("./components/login/login"));
 const Home = lazy(() => import("./components/home/Home"));
@@ -10,14 +10,27 @@ const Tasks = lazy(() => import("./components/tasks/tasks"));
 const CreateTask = lazy(() => import("./components/create-task/CreateTask"));
 
 function App() {
-  console.log('app')
   return (
     <>
       <BrowserRouter>
         <Suspense>
           <Routes>
-            <Route path="login" element={<Login />}></Route>
-            <Route path="/" element={<Home />}>
+            <Route
+              path="login"
+              element={
+                <LoginWrapper>
+                  <Login />
+                </LoginWrapper>
+              }
+            ></Route>
+            <Route
+              path="/"
+              element={
+                <AuthWrapper>
+                  <Home />
+                </AuthWrapper>
+              }
+            >
               <Route path="tasks" element={<Tasks />}></Route>
               <Route path="create" element={<CreateTask />}></Route>
             </Route>
