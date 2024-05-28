@@ -1,11 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import "./navbar.css";
+import { broadcastChannel } from "../home/Home";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.clear();
     navigate("/login");
+    broadcastChannel.postMessage("logout");
   };
   return (
     <nav className="navbar">
