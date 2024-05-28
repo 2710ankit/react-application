@@ -14,7 +14,7 @@ axiosInterceptorInstance.interceptors.request.use(
     // If token is present, add it to request's Authorization Header
     const accessToken = localStorage.getItem("token");
     if (accessToken) {
-      if (config.headers) config.headers.token = accessToken;
+      if (config.headers) config.headers.authorization = accessToken;
     }
 
     return config;
@@ -45,6 +45,7 @@ export default axiosInterceptorInstance;
 export const handleAuthorizationError = (error: any, navigate: any) => {
   if ([401, 402, 403].includes(error.response.status)) {
     window.localStorage.clear();
+    localStorage.clear()
     document.cookie = "token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
     navigate("/login");
   }
