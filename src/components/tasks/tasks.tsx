@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./tasks.css";
-import axiosInterceptorInstance from "../../interceptors/http.interceptor";
+import axiosInterceptorInstance, { handleAuthorizationError } from "../../interceptors/http.interceptor";
+import { useNavigate } from "react-router-dom";
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchAsync = async () => {
@@ -11,7 +13,7 @@ const Tasks = () => {
         const res = await axiosInterceptorInstance.get("/tasks");
         setTasks(res.data.data);
       } catch (error: any) {
-        alert(error.response.data.message.message);
+        handleAuthorizationError(error,navigate)
       }
     };
 

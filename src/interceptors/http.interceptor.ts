@@ -1,4 +1,5 @@
 import axios from "axios";
+import { error } from "console";
 
 const axiosInterceptorInstance = axios.create({
   baseURL: "http://localhost:3001/api", // Replace with your API base URL
@@ -7,15 +8,14 @@ const axiosInterceptorInstance = axios.create({
 // Request interceptor
 axiosInterceptorInstance.interceptors.request.use(
   (config) => {
-    
     // Modify the request config here (add headers, authentication tokens)
     // const accessToken = JSON.parse(localStorage.getItem("token"));
 
     // // If token is present, add it to request's Authorization Header
-    const accessToken = localStorage.getItem('token')
-    if (accessToken) {
-      if (config.headers) config.headers.token = accessToken;
-    }
+    // const accessToken = localStorage.getItem("token");
+    // if (accessToken) {
+    //   if (config.headers) config.headers.token = accessToken;
+    // }
     return config;
   },
   (error) => {
@@ -38,3 +38,11 @@ axiosInterceptorInstance.interceptors.response.use(
 );
 
 export default axiosInterceptorInstance;
+
+export const handleAuthorizationError = (error: any, navigate: any) => {
+  if ([401, 402, 403].includes(error.response.status)) {
+    window.localStorage.clear();
+    document.cookie = "token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+    navigate("/login");
+  }
+};
