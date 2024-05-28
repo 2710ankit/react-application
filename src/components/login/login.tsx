@@ -2,8 +2,10 @@ import { useState } from "react";
 
 import axiosInterceptorInstance from "../../interceptors/http.interceptor";
 import "./login.css";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [loginForm, setLoginForm] = useState({ username: "", password: "" });
+  const navigate = useNavigate()
 
   const handleInputChange = ({ name, value }: any) => {
     setLoginForm((prevValue) => {
@@ -19,9 +21,9 @@ const Login = () => {
 
     console.log(1);
     axiosInterceptorInstance
-      .post("/user/login", { username, password })
+      .post("/auth/login", { username, password })
       .then((res) => {
-        console.log(res);
+          navigate('/tasks')
       })
       .catch((err) => {
         alert(err.response.data.message.message);

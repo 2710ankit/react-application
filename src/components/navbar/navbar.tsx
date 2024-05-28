@@ -1,29 +1,21 @@
-import React from "react";
-import './navbar.css'
+import { useNavigate } from "react-router-dom";
+import "./navbar.css";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/login");
+  };
   return (
     <nav className="navbar">
       <div className="navbar-logo">
         <a href="#">Logo</a>
       </div>
-      <ul className="navbar-links">
-        <li>
-          <a href="#">Home</a>
-        </li>
-        <li>
-          <a href="#">About</a>
-        </li>
-        <li>
-          <a href="#">Services</a>
-        </li>
-        <li>
-          <a href="#">Contact</a>
-        </li>
-      </ul>
+      <ul className="navbar-links"></ul>
       <div className="navbar-user">
         <span className="username">Username</span>
-        <a href="#" className="login-logout">
+        <a className="login-logout" onClick={handleLogout}>
           Logout
         </a>
       </div>

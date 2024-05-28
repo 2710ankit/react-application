@@ -11,11 +11,12 @@ axiosInterceptorInstance.interceptors.request.use(
     // Modify the request config here (add headers, authentication tokens)
     // const accessToken = JSON.parse(localStorage.getItem("token"));
 
-    // // If token is present, add it to request's Authorization Header
-    // const accessToken = localStorage.getItem("token");
-    // if (accessToken) {
-    //   if (config.headers) config.headers.token = accessToken;
-    // }
+    // If token is present, add it to request's Authorization Header
+    const accessToken = localStorage.getItem("token");
+    if (accessToken) {
+      if (config.headers) config.headers.token = accessToken;
+    }
+
     return config;
   },
   (error) => {
@@ -28,6 +29,8 @@ axiosInterceptorInstance.interceptors.request.use(
 axiosInterceptorInstance.interceptors.response.use(
   (response) => {
     // Modify the response data here
+    const token = response.headers["authorization"];
+    if (token) localStorage.setItem("token", token);
 
     return response;
   },
